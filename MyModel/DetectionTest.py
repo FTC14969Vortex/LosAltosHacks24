@@ -2,6 +2,7 @@ import os
 os.environ["TF_USE_LEGACY_KERAS"] = "1"
 from cvzone.ClassificationModule import Classifier
 import cv2
+from PIL import ImageFont, ImageDraw, Image  
 
 #Update these file paths here as the model and label files are added
 #Copy file paths by right clicking on the file, pressing option and selecting "Copy as Pathname"
@@ -25,7 +26,7 @@ org = (int((img.shape[0]/2)), int((img.shape[1]/2)))
 # fontScale 
 fontScale = 2
 # Blue color in BGR 
-color = (0, 0, 0) 
+color = (255, 100, 0) 
 # Line thickness of 2 px 
 thickness = 2
 
@@ -68,9 +69,12 @@ while run:
 
     img = cv2.flip(img, 1)
 
+    outputFile = open(outputFilePath, 'r')
+    image = cv2.imread('/Users/shash/Documents/Vortex/LosAltosHacks24/MyModel/black-370118_1280.png')
     img = cv2.putText(img, output.split()[1], org, font, fontScale, color, thickness, cv2.LINE_AA)
-
+    image = cv2.putText(image, outputFile.read(), org, font, fontScale, (255,255,255), thickness, cv2.LINE_AA)
     cv2.imshow("Image", img)
+    cv2.imshow("Output", image)
 
     # Wait for a key press to close window
     if cv2.waitKey(1) == 27:
