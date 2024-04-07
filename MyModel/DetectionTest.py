@@ -2,13 +2,13 @@ import os
 os.environ["TF_USE_LEGACY_KERAS"] = "1"
 from cvzone.ClassificationModule import Classifier
 import cv2
+import keyboard
 
 #Update these file paths here as the model and label files are added
 #Copy file paths by right clicking on the file, pressing option and selecting "Copy as Pathname"
 filePath = '/Users/shash/Documents/Vortex/LosAltosHacks24/MyModel/keras_model.h5'
 labelPath = '/Users/shash/Documents/Vortex/LosAltosHacks24/MyModel/labels.txt'
-
-file = open("/Users/shash/Documents/Vortex/LosAltosHacks24/output.txt", "w")
+outputFilePath = "/Users/shash/Documents/Vortex/LosAltosHacks24/output.txt"
 #Initialize the classifier with the file and label paths
 classifier = Classifier(filePath, labelPath)
 
@@ -34,9 +34,13 @@ while run:
     prediction = classifier.getPrediction(img, False)
     
     output = str(prediction[2])
-    
+        
+    if keyboard.is_pressed('enter'):  # if key 'enter' is pressed 
+        file = open(outputFilePath, "w")
+        file.write(output)
+        file.close()
+        
     file.write(output)
-    print("Output written to Output.txt")
     
     img = cv2.putText(img, output, org, font, fontScale, color, thickness, cv2.LINE_AA)
     
